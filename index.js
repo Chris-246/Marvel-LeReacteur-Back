@@ -3,8 +3,11 @@ const express = require("express");
 const formidable = require("express-formidable");
 const axios = require("axios");
 const MD5 = require("crypto-js/md5");
+const cors = require("cors");
 
 const app = express();
+app.use(formidable());
+app.use(cors());
 
 //création de la timestamp
 const date = new Date();
