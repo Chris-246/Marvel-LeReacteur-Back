@@ -27,6 +27,17 @@ app.get("/characters", async (req, res) => {
   }
 });
 
+app.get("/characters/:id", async (req, res) => {
+  try {
+    const response = await axios.get(
+      `http://gateway.marvel.com/v1/public/characters/${req.params.id}/comics?ts=${timeStamp}&apikey=${process.env.API_PUBLIC_KEY}&hash=${hashValue}`
+    );
+    res.json(response.data.data.results);
+  } catch (error) {
+    console.log(error.response);
+  }
+});
+
 app.get("/comics", async (req, res) => {
   try {
     const response = await axios.get(
