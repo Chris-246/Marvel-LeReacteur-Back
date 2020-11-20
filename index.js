@@ -23,7 +23,7 @@ app.get("/characters", async (req, res) => {
     );
     res.json(response.data.data.results);
   } catch (error) {
-    console.log(error.response);
+    console.log(error.response.data);
   }
 });
 
