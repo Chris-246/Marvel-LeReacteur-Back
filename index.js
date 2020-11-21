@@ -54,12 +54,12 @@ app.get("/comics", async (req, res) => {
   try {
     if (searchValue) {
       const response = await axios.get(
-        `http://gateway.marvel.com/v1/public/comics?titleStartsWith=${searchValue}&limit=100&offset=${offsetNum}&ts=${timeStamp}&apikey=${process.env.API_PUBLIC_KEY}&hash=${hashValue}`
+        `http://gateway.marvel.com/v1/public/comics?titleStartsWith=${searchValue}&limit=100&offset=${offsetNum}&orderBy=title&ts=${timeStamp}&apikey=${process.env.API_PUBLIC_KEY}&hash=${hashValue}`
       );
       res.json(response.data.data);
     } else {
       const response = await axios.get(
-        `http://gateway.marvel.com/v1/public/comics?limit=100&offset=${offsetNum}&ts=${timeStamp}&apikey=${process.env.API_PUBLIC_KEY}&hash=${hashValue}`
+        `http://gateway.marvel.com/v1/public/comics?limit=100&offset=${offsetNum}&orderBy=title&ts=${timeStamp}&apikey=${process.env.API_PUBLIC_KEY}&hash=${hashValue}`
       );
       res.json(response.data.data);
     }
