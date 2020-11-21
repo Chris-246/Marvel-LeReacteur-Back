@@ -49,11 +49,20 @@ app.get("/characters/:id", async (req, res) => {
 });
 
 app.get("/comics", async (req, res) => {
+  const { searchValue, page } = req.query;
+  const offsetNum = 100 * (page - 1);
   try {
-    const response = await axios.get(
-      `http://gateway.marvel.com/v1/public/comics?limit=100&ts=${timeStamp}&apikey=${process.env.API_PUBLIC_KEY}&hash=${hashValue}`
-    );
-    res.json(response.data.data);
+    if (searchValue) {
+      const response = await axios.get(
+        `http://gateway.marvel.com/v1/public/comics?titleStartsWith=${searchValue}&limit=100&offset=${offsetNum}&ts=${timeStamp}&apikey=${process.env.API_PUBLIC_KEY}&hash=${hashValue}`
+      );
+      res.json(response.data.data);
+    } else {
+      const response = await axios.get(
+        `http://gateway.marvel.com/v1/public/comics?limit=100&offset=${offsetNum}&ts=${timeStamp}&apikey=${process.env.API_PUBLIC_KEY}&hash=${hashValue}`
+      );
+      res.json(response.data.data);
+    }
   } catch (error) {
     console.log(error.response);
   }
