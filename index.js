@@ -4,6 +4,7 @@ const formidable = require("express-formidable");
 const axios = require("axios");
 const MD5 = require("crypto-js/md5");
 const cors = require("cors");
+// const mongoose = require("mongoose");
 
 const app = express();
 app.use(formidable());
@@ -50,9 +51,9 @@ app.get("/characters/:id", async (req, res) => {
 app.get("/comics", async (req, res) => {
   try {
     const response = await axios.get(
-      `http://gateway.marvel.com/v1/public/comics?ts=${timeStamp}&apikey=${process.env.API_PUBLIC_KEY}&hash=${hashValue}`
+      `http://gateway.marvel.com/v1/public/comics?limit=100&ts=${timeStamp}&apikey=${process.env.API_PUBLIC_KEY}&hash=${hashValue}`
     );
-    res.json(response.data.data.results);
+    res.json(response.data.data);
   } catch (error) {
     console.log(error.response);
   }
