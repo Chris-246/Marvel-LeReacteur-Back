@@ -17,11 +17,20 @@ const hashValue = MD5(
 );
 
 app.get("/characters", async (req, res) => {
+  const { searchValue, page } = req.query;
+  const offsetNum = 100 * (page - 1);
   try {
-    const response = await axios.get(
-      `http://gateway.marvel.com/v1/public/characters?ts=${timeStamp}&apikey=${process.env.API_PUBLIC_KEY}&hash=${hashValue}`
-    );
-    res.json(response.data.data.results);
+    if (searchValue) {
+      const response = await axios.get(
+        `http://gateway.marvel.com/v1/public/characters?nameStartsWith=${searchValue}&limit=100&offset=${offsetNum}&ts=${timeStamp}&apikey=${process.env.API_PUBLIC_KEY}&hash=${hashValue}`
+      );
+      res.json(response.data.data);
+    } else {
+      const response = await axios.get(
+        `http://gateway.marvel.com/v1/public/characters?limit=100&offset=${offsetNum}&ts=${timeStamp}&apikey=${process.env.API_PUBLIC_KEY}&hash=${hashValue}`
+      );
+      res.json(response.data.data);
+    }
   } catch (error) {
     console.log(error.response.data);
   }
